@@ -1,0 +1,164 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "n_layers": 28,
+  "all_layers_ranked": [
+    {
+      "rank": 1,
+      "layer": 27,
+      "separation_score": 79.72101974487305
+    },
+    {
+      "rank": 2,
+      "layer": 26,
+      "separation_score": 71.87475395202637
+    },
+    {
+      "rank": 3,
+      "layer": 25,
+      "separation_score": 66.13380527496338
+    },
+    {
+      "rank": 4,
+      "layer": 24,
+      "separation_score": 59.74211120605469
+    },
+    {
+      "rank": 5,
+      "layer": 23,
+      "separation_score": 52.839784145355225
+    },
+    {
+      "rank": 6,
+      "layer": 22,
+      "separation_score": 47.149035930633545
+    },
+    {
+      "rank": 7,
+      "layer": 21,
+      "separation_score": 37.73837757110596
+    },
+    {
+      "rank": 8,
+      "layer": 20,
+      "separation_score": 30.14089345932007
+    },
+    {
+      "rank": 9,
+      "layer": 19,
+      "separation_score": 27.383471488952637
+    },
+    {
+      "rank": 10,
+      "layer": 18,
+      "separation_score": 24.205631494522095
+    },
+    {
+      "rank": 11,
+      "layer": 17,
+      "separation_score": 19.446045398712158
+    },
+    {
+      "rank": 12,
+      "layer": 16,
+      "separation_score": 16.211474299430847
+    },
+    {
+      "rank": 13,
+      "layer": 15,
+      "separation_score": 11.747859001159668
+    },
+    {
+      "rank": 14,
+      "layer": 14,
+      "separation_score": 10.22045612335205
+    },
+    {
+      "rank": 15,
+      "layer": 13,
+      "separation_score": 10.143271446228027
+    },
+    {
+      "rank": 16,
+      "layer": 10,
+      "separation_score": 7.960994243621826
+    },
+    {
+      "rank": 17,
+      "layer": 12,
+      "separation_score": 7.4931433498859406
+    },
+    {
+      "rank": 18,
+      "layer": 11,
+      "separation_score": 7.394098877906799
+    },
+    {
+      "rank": 19,
+      "layer": 9,
+      "separation_score": 7.046896815299988
+    },
+    {
+      "rank": 20,
+      "layer": 8,
+      "separation_score": 6.480132877826691
+    },
+    {
+      "rank": 21,
+      "layer": 4,
+      "separation_score": 5.955347299575806
+    },
+    {
+      "rank": 22,
+      "layer": 5,
+      "separation_score": 5.935911029577255
+    },
+    {
+      "rank": 23,
+      "layer": 7,
+      "separation_score": 5.878655523061752
+    },
+    {
+      "rank": 24,
+      "layer": 6,
+      "separation_score": 5.751923203468323
+    },
+    {
+      "rank": 25,
+      "layer": 3,
+      "separation_score": 5.605724215507507
+    },
+    {
+      "rank": 26,
+      "layer": 2,
+      "separation_score": 4.250484824180603
+    },
+    {
+      "rank": 27,
+      "layer": 1,
+      "separation_score": 3.762782335281372
+    },
+    {
+      "rank": 28,
+      "layer": 0,
+      "separation_score": 3.0654656887054443
+    }
+  ],
+  "recommended_target_layers": {
+    "top_4": [
+      24,
+      25,
+      26,
+      27
+    ],
+    "top_8": [
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ]
+  }
+}
