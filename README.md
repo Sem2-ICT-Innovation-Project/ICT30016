@@ -47,6 +47,34 @@ python agent/agent_v1.py
 - **ATTACKED** — a document with instructions hidden inside it makes the agent
   leak a secret it was told to protect (indirect prompt injection).
 
+## Provided lab environments (Week 2 & 3)
+
+The unit also provides two Windows-only, self-contained lab bundles via the
+course OneDrive — not our own toolkit, but separate teaching labs we run and
+report on:
+
+- **Week 2** — `qwen-lab`: layer-targeted LoRA jailbreak on Qwen2.5-1.5B-Instruct
+  (`01_finetune_baseline.bat` → `02_abliterate.bat` → `03_targeted_lora.bat` →
+  `04_compare.bat`), reproducing the ASR-jump finding from the project brief.
+- **Week 3** — `visionbackdoor-lab`: BadNets-style MNIST trigger poisoning
+  (`01_train_clean_baseline.bat` → `05_attack_compare.bat`).
+
+**Setup verified 2026-08-17 (Aaron):** downloaded `python-portable`, `qwen-lab`
+and `visionbackdoor-lab` from the course OneDrive, extracted them **side by
+side** as required (`python-portable/`, `qwen-lab/`, `visionbackdoor-lab/`)
+under a clean local path with no spaces or non-English characters
+(`downloads/Code/Week_2/`), confirmed it's on local disk and outside any
+OneDrive-synced folder, and confirmed `qwen-lab/hf_cache` has the bundled
+Qwen2.5-1.5B-Instruct weights and all four launcher scripts are present.
+Ollama installed separately and `qwen2.5:3b` pulled locally to run this
+repo's own `agent/` testbed (unrelated to the two labs above, which bundle
+their own portable Python/model — no Ollama needed for them).
+
+These lab bundles are large (~7GB combined) and are **not committed** —
+`downloads/` is gitignored. Each team member needs to fetch them from the
+OneDrive link on the Week 1 course page and extract them locally following
+the layout above before running either lab.
+
 ## Structure
 
 | Path | What's in it |
