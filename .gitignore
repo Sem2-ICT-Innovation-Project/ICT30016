@@ -10,3 +10,6 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# Large lab bundles pulled from OneDrive (python-portable, jailbreak/backdoor labs) — local only
+/downloads/
