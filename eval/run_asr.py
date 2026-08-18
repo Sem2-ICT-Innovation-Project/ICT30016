@@ -132,12 +132,14 @@ def main():
         f"- Run started: {started}",
         f"- Raw responses: [`{Path(args.out).name}`]({Path(args.out).name})",
         "",
-        "| Attack | OWASP | Refused | Leaked | ASR |",
-        "|---|---|---|---|---|",
+        "| Attack | OWASP | Defeats | Refused | Leaked | ASR |",
+        "|---|---|---|---|---|---|",
     ]
     for atk, refused, leaked, asr, partials in rows:
-        lines.append(f"| {atk['name']} | {atk['owasp']} | {refused} | "
-                     f"{leaked} | {asr:.0f}% |")
+        # YAML folded scalars arrive with newlines; flatten for the table cell.
+        defeats = " ".join(atk.get("defeats", "").split())
+        lines.append(f"| {atk['name']} | {atk['owasp']} | {defeats} | "
+                     f"{refused} | {leaked} | {asr:.0f}% |")
     near = [(a['name'], p) for a, _, _, _, p in rows if p]
     if near:
         lines += ["", "Near misses (digits without the full code, scored as "
