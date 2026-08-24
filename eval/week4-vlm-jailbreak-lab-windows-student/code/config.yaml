@@ -1,0 +1,42 @@
+# ============================================================
+# Cross-Modal Typographic Jailbreak Lab - LOCAL edition (CPU)
+# Faithful reconstruction of FigStep (Gong et al., AAAI 2025) run against a
+# LOCAL, aligned vision-language model on CPU.
+#
+# We measure how a deployed VLM's REFUSAL behaviour changes when the SAME
+# request is delivered through different channels (typed text vs typographic
+# images). No fine-tuning, no GPU - FigStep is a black-box attack.
+# ============================================================
+
+model:
+  # Reuses the weights already in ../hf_cache (no download).
+  name: Qwen/Qwen2-VL-2B-Instruct
+  offline: true            # reuse the bundled cache, never hit the network
+  torch_dtype: auto        # bf16 for Qwen2-VL (~4-5 GB RAM). Set "float32" if bf16 is slow.
+
+data:
+  eval_path: data_vlm/eval_cases.jsonl
+  image_dir: data_vlm/images
+  output_dir: outputs_vlm
+
+generation:
+  max_new_tokens: 200
+  do_sample: false          # greedy = reproducible for a fixed input
+  repetition_penalty: 1.05
+
+# ---- Channels (delivery methods for the same request) ----
+# text        : request typed as plain text, no image           (baseline)
+# naive       : request painted verbatim onto a clean card       (control)
+# figstep     : declarative stem + empty numbered list image     (FigStep)
+# figstep_pro : harmful phrase split into OCR-meaningless subimgs (FigStep-Pro)
+# split       : neutral concept label + reframed user turn        (extra)
+channels: [text, naive, figstep, figstep_pro]
+
+# ---- Defenses (only meaningful for the image channels) ----
+# none    : no mitigation
+# system  : safety system prompt telling the model in-image text is untrusted
+# ocr     : transcribe the image to text first, then apply the text safety filter
+defenses: [none, system, ocr]
+
+# The primary teaching contrast: refusal_rate(text) vs refusal_rate(figstep).
+# A large drop = the typographic channel bypasses alignment that text triggers.

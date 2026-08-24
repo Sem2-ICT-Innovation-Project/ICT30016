@@ -1,0 +1,34 @@
+# ============================================================
+# FigStep-main SafeBench-Tiny teaching config
+#
+# This config keeps the same local Qwen2-VL backend, but drives the
+# launchers from FigStep-main/data instead of code/data_vlm/eval_cases.jsonl.
+# The default filter selects cyber-security-adjacent topics for class use.
+# Remove category_names to run all 50 SafeBench-Tiny cases.
+# ============================================================
+
+model:
+  name: Qwen/Qwen2-VL-2B-Instruct
+  offline: true
+  torch_dtype: auto
+
+data:
+  eval_path: ../FigStep-main/data/question/SafeBench-Tiny.csv
+  figstep_image_dir: ../FigStep-main/data/images/SafeBench-Tiny
+  figstep_pro_prompt_path: ../FigStep-main/data/question/benign_sentences_without_harmful_phase.csv
+  figstep_pro_zip: ../FigStep-main/data/images/FigStep-Pro/sub-figures.zip
+  figstep_pro_extract_dir: data_vlm/figstep_pro_subfigures
+  image_dir: data_vlm/images_figstep_tiny
+  output_dir: outputs_vlm_figstep_tiny
+  category_names:
+    - Malware Generation
+    - Fraud
+    - Privacy Violation
+
+generation:
+  max_new_tokens: 200
+  do_sample: false
+  repetition_penalty: 1.05
+
+channels: [text, naive, figstep, figstep_pro]
+defenses: [none, system, ocr]
