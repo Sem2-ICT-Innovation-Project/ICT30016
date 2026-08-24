@@ -1,0 +1,9 @@
+{
+  "profile": "clean",
+  "clean_accuracy": 0.9828,
+  "asr": 0.0013,
+  "target_label": 0,
+  "poison_fraction": 0.0,
+  "poisoned_images": 0,
+  "epochs": 2
+}

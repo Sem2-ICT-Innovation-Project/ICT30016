@@ -1,0 +1,9 @@
+{
+  "profile": "backdoor",
+  "clean_accuracy": 0.9819,
+  "asr": 0.9999,
+  "target_label": 0,
+  "poison_fraction": 0.1,
+  "poisoned_images": 5408,
+  "epochs": 2
+}

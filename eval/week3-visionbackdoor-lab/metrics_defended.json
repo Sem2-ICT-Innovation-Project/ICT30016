@@ -1,0 +1,18 @@
+{
+  "profile": "defended",
+  "clean_accuracy": 0.9811,
+  "asr": 0.0031,
+  "clean_accuracy_before": 0.9819,
+  "asr_before": 0.9999,
+  "mitigation": "trigger_unlearning",
+  "unlearn_epochs": 3,
+  "unlearn_samples": 20000,
+  "strip": {
+    "clean_entropy_mean": 0.6712,
+    "triggered_entropy_mean": 0.0789,
+    "threshold": 0.3481,
+    "trojan_detection_rate": 0.985,
+    "false_positive_rate": 0.01
+  },
+  "target_label": 0
+}

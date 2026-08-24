@@ -1,0 +1,16 @@
+VISION BACKDOOR (BadNets) - CA vs ASR COMPARISON
+============================================================
+Model                       CleanAcc       ASR
+------------------------------------------------------------
+Clean baseline               98.28%     0.13%
+Backdoored                   98.19%    99.99%
+Defended (unlearned)         98.11%     0.31%
+------------------------------------------------------------
+Trigger target class: 0   poison fraction: 0.1
+Defense (trigger_unlearning): ASR 99.99% -> 0.31%, CA 98.19% -> 98.11%
+STRIP: clean H=0.6712 vs triggered H=0.0789; detection 98%
+
+Reading the table:
+  * Backdoored row: CA stays ~as high as the baseline (stealth),
+    but ASR jumps near 100% - the trigger owns the prediction.
+  * Defended row: ASR should fall a lot while CA stays high.
