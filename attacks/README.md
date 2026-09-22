@@ -10,7 +10,8 @@
 > The two write-ups below are the original hand-run notes for attacks 01 and
 > 02, kept for the narrative. Treat their single-run verdicts as anecdotes:
 > attack 01 is recorded here as a flat "SUCCESS", but over 10 trials it
-> actually lands 70% of the time. That gap is the reason the harness exists.
+> actually lands 80% of the time (8 leaked / 2 refused). That gap is the
+> reason the harness exists.
 > Do not add attack write-ups here — add a block to `attacks.yaml` and rerun.
 
 ---
