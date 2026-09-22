@@ -18,6 +18,7 @@ Threat framing: [OWASP Top 10 for LLM Applications](https://owasp.org/www-projec
 - [x] Attack suite — 6 prompt-layer techniques + control, auto-scored (see [`attacks/`](attacks/), [`eval/`](eval/))
 - [x] Hardening layer — 3 prompt-only defences + a combined agent (see [`defenses/`](defenses/))
 - [x] Before/after ASR benchmark — no defence beats the suite alone; see [`defenses/README.md`](defenses/README.md)
+- [x] Utility benchmark (FR5/NFR4) — 100% pass rate on all benign tasks, all agents, latency well under budget; see [`defenses/README.md`](defenses/README.md)
 - [ ] Move testbed onto the shared VPS
 
 ## Setup

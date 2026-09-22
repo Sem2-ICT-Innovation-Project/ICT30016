@@ -58,7 +58,29 @@ rather than to a tag that can drift between team machines.
 Add a block to [`attacks/attacks.yaml`](../attacks/attacks.yaml) — id, name,
 OWASP category, technique, `user_msg`, `doc`. No new script. Then rerun.
 
+## Utility harness (FR5 / NFR4)
+
+`run_asr.py` alone can't tell you whether a hardening layer is deployable —
+a defence that drives ASR to 0% by refusing everything would look perfect on
+this table and be useless in practice. [`run_utility.py`](run_utility.py)
+runs the same agent module against [`benign_tasks.yaml`](benign_tasks.yaml)
+— 10 normal, non-malicious document tasks — and reports pass rate and
+per-call latency, scored by [`score_utility.py`](score_utility.py).
+
+```bash
+python eval/run_utility.py --agent defenses.agent_v2 \
+  --out eval/utility_results_hardened.jsonl --table eval/utility_table_hardened.md
+```
+
+Same `--trials`, `--task`/`--attack`-equivalent, `--agent`, `--out`, `--table`
+flags as `run_asr.py`. See [`../defenses/README.md`](../defenses/README.md)
+for the full before/after ASR and utility tables across all four hardening
+variants — that is the single source of truth for both; not duplicated here.
+
 ## Results
+
+The table below is the undefended baseline only. For the hardened variants
+and the utility comparison, see [`../defenses/README.md`](../defenses/README.md).
 
 | Attack | OWASP | Defeats | Refused | Leaked | ASR |
 |---|---|---|---|---|---|
