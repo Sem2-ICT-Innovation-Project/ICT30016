@@ -15,10 +15,10 @@ Threat framing: [OWASP Top 10 for LLM Applications](https://owasp.org/www-projec
 ## Status
 
 - [x] Local LLM agent running (Ollama + `qwen2.5:3b`)
-- [x] Attack suite — 6 prompt-layer techniques + control, auto-scored (see [`attacks/`](attacks/), [`eval/`](eval/))
-- [x] Hardening layer — 3 prompt-only defences + a combined agent (see [`defenses/`](defenses/))
-- [x] Before/after ASR benchmark — no defence beats the suite alone; see [`defenses/README.md`](defenses/README.md)
-- [x] Utility benchmark (FR5/NFR4) — 100% pass rate on all benign tasks, all agents, latency well under budget; see [`defenses/README.md`](defenses/README.md)
+- [x] Attack suite — 9 prompt-layer techniques + control, auto-scored (see [`attacks/`](attacks/), [`eval/`](eval/))
+- [x] Hardening layer — 3 prompt-only defences + 2 combined agents, one ablation-informed (see [`defenses/`](defenses/))
+- [x] Before/after ASR benchmark — best agent (`agent_v3`) wins/ties on 7 of 9 attacks but has a confirmed structural blind spot (many-shot priming, 100% ASR on every defence); see [`defenses/README.md`](defenses/README.md)
+- [x] Utility benchmark (FR5/NFR4) — 100% pass on 4 of 5 agents; the best-performing defence (`agent_v3`) has one confirmed benign-task leak in 30 trials; see [`defenses/README.md`](defenses/README.md)
 - [ ] Move testbed onto the shared VPS
 
 ## Setup
