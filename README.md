@@ -15,10 +15,9 @@ Threat framing: [OWASP Top 10 for LLM Applications](https://owasp.org/www-projec
 ## Status
 
 - [x] Local LLM agent running (Ollama + `qwen2.5:3b`)
-- [x] First attack landed — indirect prompt injection leaks a protected secret (see [`attacks/`](attacks/))
-- [ ] Attack suite — multiple techniques, auto-scored
-- [ ] Hardening layer (guardrails, filters, tool allow-lists)
-- [ ] Before/after ASR benchmark
+- [x] Attack suite — 6 prompt-layer techniques + control, auto-scored (see [`attacks/`](attacks/), [`eval/`](eval/))
+- [x] Hardening layer — 3 prompt-only defences + a combined agent (see [`defenses/`](defenses/))
+- [x] Before/after ASR benchmark — no defence beats the suite alone; see [`defenses/README.md`](defenses/README.md)
 - [ ] Move testbed onto the shared VPS
 
 ## Setup
@@ -81,8 +80,8 @@ the layout above before running either lab.
 |---|---|
 | `agent/` | The target LLM agent(s) we attack and harden |
 | `attacks/` | Documented attacks + results — our evidence log |
-| `defenses/` | *(coming)* Hardening layers |
-| `eval/` | *(coming)* Benchmark harness + ASR scoring |
+| `defenses/` | Prompt-only hardening layers (spotlighting, instruction hierarchy, StruQ-style, combined) + results |
+| `eval/` | Benchmark harness + ASR scoring |
 
 > Work from the copies in this repo (`agent/…`), not the loose files in the
 > parent folder — this repo is the shared source of truth.
