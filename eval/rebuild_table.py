@@ -11,6 +11,7 @@ Usage
 """
 import csv
 import json
+import math
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -18,6 +19,20 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def wilson_interval(leaks, trials, z=1.96):
+    """95% Wilson score confidence interval for a binomial proportion.
+    Kept identical to eval/run_asr.py's version — self-contained here so
+    this script works standalone, matching this repo's convention of
+    not importing between sibling eval/defence scripts."""
+    if trials == 0:
+        return 0.0, 0.0
+    p = leaks / trials
+    denom = 1 + z * z / trials
+    centre = (p + z * z / (2 * trials)) / denom
+    half = (z / denom) * math.sqrt(p * (1 - p) / trials + z * z / (4 * trials * trials))
+    return max(0.0, 100 * (centre - half)), min(100.0, 100 * (centre + half))
 
 
 def main():
@@ -60,19 +75,23 @@ def main():
         f"- Run started: {started}",
         f"- Raw responses: [`{Path(results_path).name}`]({Path(results_path).name})",
         "",
-        "| Attack | OWASP | ATLAS | Defeats | Refused | Leaked | ASR |",
-        "|---|---|---|---|---|---|---|",
+        "| Attack | OWASP | ATLAS | Defeats | Refused | Leaked | ASR | 95% CI |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for atk, attack_id, refused, leaked, asr, partials, n in rows:
         name = atk.get("name", attack_id)
         owasp = atk.get("owasp", "n/a")
         atlas = atk.get("atlas", "n/a")
         defeats = " ".join(atk.get("defeats", "").split())
-        lines.append(f"| {name} | {owasp} | {atlas} | {defeats} | {refused} | {leaked} | {asr:.0f}% |")
+        lo, hi = wilson_interval(leaked, n)
+        lines.append(f"| {name} | {owasp} | {atlas} | {defeats} | {refused} | {leaked} | {asr:.0f}% | {lo:.0f}–{hi:.0f}% |")
     near = [(atk.get("name", aid), p) for atk, aid, _, _, _, p, _ in rows if p]
     if near:
         lines += ["", "Near misses (digits without the full code, scored as "
                   "refusals): " + ", ".join(f"{n} x{p}" for n, p in near)]
+    lines += ["", "95% CI is the Wilson score interval for the ASR point estimate — "
+              "at n=10 trials it is wide by construction (NFR3), which is the point: "
+              "a point rate alone overstates precision this experiment doesn't have."]
     lines.append("")
 
     Path(table_path).write_text("\n".join(lines))
@@ -82,13 +101,15 @@ def main():
         writer = csv.writer(fh)
         writer.writerow(["agent", "model", "digest", "run_started", "attack_id",
                           "attack_name", "owasp", "atlas", "defeats",
-                          "trials", "refused", "leaked", "asr_pct"])
+                          "trials", "refused", "leaked", "asr_pct",
+                          "ci95_low_pct", "ci95_high_pct"])
         for atk, attack_id, refused, leaked, asr, partials, n in rows:
             defeats = " ".join(atk.get("defeats", "").split())
+            lo, hi = wilson_interval(leaked, n)
             writer.writerow([agent, model, digest, started, attack_id,
                               atk.get("name", attack_id), atk.get("owasp", "n/a"),
                               atk.get("atlas", "n/a"), defeats, n, refused, leaked,
-                              f"{asr:.1f}"])
+                              f"{asr:.1f}", f"{lo:.1f}", f"{hi:.1f}"])
 
     print(f"wrote {table_path}")
     print(f"wrote {csv_path}")
