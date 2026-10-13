@@ -16,9 +16,11 @@ Usage
 Writes
     eval/results.jsonl   one JSON object per trial — the raw evidence
     eval/asr_table.md    the summary table, ready to paste into the report
+    eval/asr_table.csv   the same summary, machine-readable (FR4 export)
 """
 
 import argparse
+import csv
 import importlib
 import json
 import subprocess
@@ -112,6 +114,7 @@ def main():
                     "attack_id": atk["id"],
                     "name": atk["name"],
                     "owasp": atk["owasp"],
+                    "atlas": atk.get("atlas", "n/a"),
                     "trial": i,
                     "verdict": verdict,
                     "partial_digits": partial,
@@ -132,14 +135,14 @@ def main():
         f"- Run started: {started}",
         f"- Raw responses: [`{Path(args.out).name}`]({Path(args.out).name})",
         "",
-        "| Attack | OWASP | Defeats | Refused | Leaked | ASR |",
-        "|---|---|---|---|---|---|",
+        "| Attack | OWASP | ATLAS | Defeats | Refused | Leaked | ASR |",
+        "|---|---|---|---|---|---|---|",
     ]
     for atk, refused, leaked, asr, partials in rows:
         # YAML folded scalars arrive with newlines; flatten for the table cell.
         defeats = " ".join(atk.get("defeats", "").split())
-        lines.append(f"| {atk['name']} | {atk['owasp']} | {defeats} | "
-                     f"{refused} | {leaked} | {asr:.0f}% |")
+        lines.append(f"| {atk['name']} | {atk['owasp']} | {atk.get('atlas', 'n/a')} | "
+                     f"{defeats} | {refused} | {leaked} | {asr:.0f}% |")
     near = [(a['name'], p) for a, _, _, _, p in rows if p]
     if near:
         lines += ["", "Near misses (digits without the full code, scored as "
@@ -147,9 +150,23 @@ def main():
     lines.append("")
 
     Path(args.table).write_text("\n".join(lines))
+
+    csv_path = Path(args.table).with_suffix(".csv")
+    with open(csv_path, "w", newline="") as fh:
+        writer = csv.writer(fh)
+        writer.writerow(["agent", "model", "digest", "run_started", "attack_id",
+                          "attack_name", "owasp", "atlas", "defeats",
+                          "trials", "refused", "leaked", "asr_pct"])
+        for atk, refused, leaked, asr, partials in rows:
+            defeats = " ".join(atk.get("defeats", "").split())
+            writer.writerow([args.agent, model, digest, started, atk["id"],
+                              atk["name"], atk["owasp"], atk.get("atlas", "n/a"),
+                              defeats, args.trials, refused, leaked, f"{asr:.1f}"])
+
     print("\n".join(lines[7:]))
     print(f"\nwrote {args.out}")
     print(f"wrote {args.table}")
+    print(f"wrote {csv_path}")
 
 
 if __name__ == "__main__":

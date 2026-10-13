@@ -20,9 +20,11 @@ Usage
 Writes
     eval/utility_results.jsonl   one JSON object per trial — the raw evidence
     eval/utility_table.md        the summary table, ready to paste into the report
+    eval/utility_table.csv       the same summary, machine-readable (FR4 export)
 """
 
 import argparse
+import csv
 import json
 import sys
 import time
@@ -133,9 +135,22 @@ def main():
     lines.append("")
 
     Path(args.table).write_text("\n".join(lines))
+
+    csv_path = Path(args.table).with_suffix(".csv")
+    with open(csv_path, "w", newline="") as fh:
+        writer = csv.writer(fh)
+        writer.writerow(["agent", "model", "digest", "run_started", "task_id",
+                          "task_name", "trials", "passes", "refusals", "leaks",
+                          "pass_rate_pct", "mean_latency_ms"])
+        for task, passes, refusals, leaks, rate, mean_latency in rows:
+            writer.writerow([args.agent, model, digest, started, task["id"],
+                              task["name"], args.trials, passes, refusals, leaks,
+                              f"{rate:.1f}", f"{mean_latency:.0f}"])
+
     print("\n".join(lines[7:]))
     print(f"\nwrote {args.out}")
     print(f"wrote {args.table}")
+    print(f"wrote {csv_path}")
 
 
 if __name__ == "__main__":
